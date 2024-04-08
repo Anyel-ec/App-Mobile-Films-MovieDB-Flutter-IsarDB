@@ -1,5 +1,6 @@
 import 'package:app_cinema_full/presentation/providers/movies/movies_providers.dart';
 import 'package:app_cinema_full/presentation/providers/movies/movies_slidershow_provider.dart';
+import 'package:app_cinema_full/presentation/widgets/shared/custom_bottom_navigationbar.dart';
 import 'package:app_cinema_full/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: _HomeView());
+    return const Scaffold(
+      body: _HomeView(), 
+      bottomNavigationBar: CustomBottomNavigation(),
+      );
   }
 }
 
@@ -39,7 +43,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     return Column(
       children: [
         const CustomAppbar(),
-        
+
         MoviesSlideshow(movies: slideShowMovies)
 
 
