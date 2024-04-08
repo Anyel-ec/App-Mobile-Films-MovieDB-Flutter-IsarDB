@@ -1,3 +1,5 @@
+import 'package:app_cinema_full/config/router/app_router.dart';
+import 'package:app_cinema_full/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,14 +9,13 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  @override
+  @override   
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return  MaterialApp.router(
+      routerConfig: appRouter,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme().getTheme(),
+      
     );
   }
 }
