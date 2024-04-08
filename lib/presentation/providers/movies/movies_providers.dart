@@ -25,9 +25,9 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     required this.fetchMoreMovies,
   }): super([]);
 
-  Future<void> loadNextPage() async{
-    currentPage++;
-    final List<Movie> movies = await fetchMoreMovies( page: currentPage );
+  Future<void> loadNextPage() async{ // cargar la siguiente pagina
+    currentPage++; // aumentar la pagina
+    final List<Movie> movies = await fetchMoreMovies( page: currentPage ); // obtener las peliculas de la pagina actual
     state = [...state, ...movies];
   }
 

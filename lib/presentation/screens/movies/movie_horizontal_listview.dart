@@ -1,8 +1,9 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:app_cinema_full/config/helpers/human_formats.dart';
 import 'package:app_cinema_full/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
-class MovieHorizontalListView extends StatelessWidget {
+class MovieHorizontalListView extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
   final String? subTitle;
@@ -16,18 +17,48 @@ class MovieHorizontalListView extends StatelessWidget {
       this.onNextPage});
 
   @override
+  State<MovieHorizontalListView> createState() => _MovieHorizontalListViewState();
+}
+
+class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      if (widget.onNextPage == null ) return ;
+
+      if ( scrollController.position.pixels >= scrollController.position.maxScrollExtent - 500) {
+        print ('Cargar siguientes peliculas');
+        widget.onNextPage!();
+      }
+      
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
         height: 350,
         child: Column(
           children: [
-            if (title != null) _Title(title: title, subTitle: subTitle),
+            if (widget.title != null) _Title(title: widget.title, subTitle: widget.subTitle),
             Expanded(
                 child: ListView.builder(
-              itemCount: movies.length,
+              controller: scrollController,
+              itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return _Slide(movie: movies[index]);
+                return _Slide(movie: widget.movies[index]);
               },
             ))
           ],
@@ -77,15 +108,17 @@ class _Slide extends StatelessWidget {
           ),
 
         ///rading
-        Row(
-          children: [
-            Icon(Icons.star, size: 16, color: Colors.amber),
-            const SizedBox(width: 5),
-            Text('${movie.voteAverage}',
-                style: textStyles.bodyMedium?.copyWith(color: Colors.amber)),
-            const SizedBox(width: 5),
-            Text('(${movie.popularity})', style: textStyles.bodyMedium),
-          ],
+        SizedBox(
+          width: 150,
+          child: Row(
+            children: [
+              Icon(Icons.star, size: 16, color: Colors.amber),
+              const SizedBox(width: 5),
+              Text (HumanFormants.number(movie.voteAverage), style: textStyles.bodyMedium?.copyWith(color: Colors.amber)),
+              const Spacer(),
+              Text (HumanFormants.number(movie.popularity), style: textStyles.bodyMedium),
+            ],
+          ),
         )
       ]
       ),
