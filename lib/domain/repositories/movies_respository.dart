@@ -1,6 +1,6 @@
 import 'package:app_cinema_full/domain/entities/movie.dart';
 
-abstract class MovieDatasource{
+abstract class MoviesRepository{
   Future<List<Movie>> getNowPlaying({int page = 1});
 
 }

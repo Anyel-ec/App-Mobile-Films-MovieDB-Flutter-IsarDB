@@ -1,4 +1,6 @@
+import 'package:app_cinema_full/config/constants/environment.dart';
 import 'package:flutter/material.dart';
+// importar dotenv
 
 class HomeScreen extends StatelessWidget {
   static const name = 'home-screen';
@@ -6,9 +8,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Placeholder(
-      color: Colors.blue,
+    return Scaffold(
+        body: Center(
+      child: Text(Environment.movieDbKey),
     ));
   }
 }
