@@ -16,8 +16,8 @@ class CustomAppbar extends StatelessWidget {
           child: Row(
             children: [
               Icon(Icons.movie_creation, color: colors.primary),
-              const SizedBox(width: 8),
-              Text('Anyel - Cinema', style: titleStyle),
+              const SizedBox(width: 10),
+              Text('Anyelmedia', style: titleStyle),
               const Spacer(),
               Icon(Icons.search, color: colors.primary),
             ],
