@@ -56,23 +56,26 @@ class _CustomSleverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
+      title: Text(movie.title),
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         title: Text(
           movie.title,
-          style: const TextStyle(fontSize: 20),
-          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 15),
+          textAlign: TextAlign.start,
+          maxLines: 2,
         ),
         titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         background: Stack(
           children: [
             SizedBox.expand(
                 child: Image.network(
-              movie.backdropPath,
+              movie.posterPath,
               fit: BoxFit.fill,
-            )),
+            )
+            ),
             const SizedBox.expand(
               child: DecoratedBox(
                 decoration: BoxDecoration(
