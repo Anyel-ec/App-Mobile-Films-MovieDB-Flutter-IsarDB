@@ -1,4 +1,5 @@
 import 'package:app_cinema_full/domain/entities/movie.dart';
+import 'package:app_cinema_full/infrastructure/models/moviedb/movie_details.dart';
 import 'package:app_cinema_full/infrastructure/models/moviedb/movie_moviedb.dart';
 
 class MovieMapper {
@@ -22,4 +23,28 @@ class MovieMapper {
       voteAverage: moviedb.voteAverage,
       voteCount: moviedb.voteCount
     );
+
+    static Movie movieDetailsToEntity (MovieDetails movie) => Movie(
+      adult: false,
+      backdropPath: (movie.backdropPath != '') 
+        ? 'https://image.tmdb.org/t/p/w500${ movie.backdropPath }'
+        : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
+      genreIds: movie.genres.map((e) => e.name.toString()).toList(),
+      id: movie.id,
+      originalLanguage: movie.originalLanguage,
+      originalTitle: movie.originalTitle,
+      overview: movie.overview,
+      popularity: movie.popularity,
+      posterPath: (movie.posterPath != '')
+        ? 'https://image.tmdb.org/t/p/w500${ movie.posterPath }'
+        : 'no-poster',
+      releaseDate: movie.releaseDate,
+      title: movie.title,
+      video: false,
+      voteAverage: movie.voteAverage,
+      voteCount: movie.voteCount
+
+    
+    );
+
 }
