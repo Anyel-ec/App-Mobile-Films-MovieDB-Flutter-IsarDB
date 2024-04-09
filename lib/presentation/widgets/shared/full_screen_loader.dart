@@ -12,7 +12,7 @@ class FullScreenLoader extends StatelessWidget {
   ];
 
   Stream <String> getLoadingMessage()  {
-    return Stream.periodic(const Duration(milliseconds: 1200), (step){
+    return Stream.periodic(const Duration(milliseconds: 500), (step){
       return messages[step % messages.length];
     }).take(messages.length);
   }
