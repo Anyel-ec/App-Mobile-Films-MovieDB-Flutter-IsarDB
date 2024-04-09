@@ -58,7 +58,7 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
               itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
             ))
           ],
@@ -130,7 +130,7 @@ class _Title extends StatelessWidget {
   final String? title;
   final String? subTitle;
 
-  const _Title({super.key, this.title, this.subTitle});
+  const _Title({this.title, this.subTitle});
 
   @override
   Widget build(BuildContext context) {

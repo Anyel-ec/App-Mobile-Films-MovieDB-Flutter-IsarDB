@@ -1,6 +1,8 @@
 import 'package:app_cinema_full/presentation/providers/movies/movies_providers.dart';
 import 'package:app_cinema_full/presentation/providers/movies/movies_slidershow_provider.dart';
+import 'package:app_cinema_full/presentation/providers/providers.dart';
 import 'package:app_cinema_full/presentation/widgets/shared/custom_bottom_navigationbar.dart';
+import 'package:app_cinema_full/presentation/widgets/shared/full_screen_loader.dart';
 import 'package:app_cinema_full/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,13 +42,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+
+    final initialLoading = ref.watch(initialLoadingProvider);
+    if (initialLoading) return FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMoviesPopular);
     final upCommingMovies = ref.watch(upCommingMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
-    return CustomScrollView(slivers: [
+    return CustomScrollView(
+      slivers: [
       const SliverAppBar(
         floating: true,
         elevation: 0,
@@ -73,7 +80,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               MovieHorizontalListView(
                 movies: popularMovies,
                 title: 'Populares',
-                subTitle: 'Lunes',
+                // subTitle: 'Lunes',
                 onNextPage: () {
                   ref.read(popularMoviesPopular.notifier).loadNextPage();
                 },
