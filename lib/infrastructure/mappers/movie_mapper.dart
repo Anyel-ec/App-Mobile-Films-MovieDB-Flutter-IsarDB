@@ -15,8 +15,9 @@ class MovieMapper {
       popularity: moviedb.popularity,
       posterPath: (moviedb.posterPath != '')
         ? 'https://image.tmdb.org/t/p/w500${ moviedb.posterPath }'
-        : 'no-poster',
-      releaseDate: moviedb.releaseDate,
+        : 'https://rukminim2.flixcart.com/image/850/1000/krntoy80/poster/9/x/j/medium-no-wall-poster-12-18-asstore-no-original-imag5esychwbbsek.jpeg?q=90&crop=false',
+        
+      releaseDate: moviedb.releaseDate ?? DateTime.now(),
       title: moviedb.title,
       video: moviedb.video,
       voteAverage: moviedb.voteAverage,
