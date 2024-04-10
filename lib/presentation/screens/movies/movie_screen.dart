@@ -188,7 +188,7 @@ class _CustomSleverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
-      title: Text('${movie.title} + Dev Anyel EC', maxLines: 2),
+      title: Text(movie.title, maxLines: 2),
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,

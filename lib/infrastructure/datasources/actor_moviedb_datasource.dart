@@ -3,7 +3,6 @@ import 'package:app_cinema_full/domain/datasources/actors_datasource.dart';
 import 'package:app_cinema_full/domain/entities/actor.dart';
 import 'package:app_cinema_full/infrastructure/mappers/actor_mapper.dart';
 import 'package:app_cinema_full/infrastructure/models/moviedb/credits_response.dart';
-import 'package:app_cinema_full/infrastructure/models/moviedb/movie_details.dart';
 import 'package:dio/dio.dart';
 
 class ActorMovieDbDatasource extends ActorsDatasource{

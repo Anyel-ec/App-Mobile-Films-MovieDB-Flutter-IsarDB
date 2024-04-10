@@ -1,6 +1,6 @@
 # app_cinema_full
 
-In dev....
+In dev.... configurete file of env, your api key of moviedb
 
 # IN DEV........
 ### Home
