@@ -1,7 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:app_cinema_full/domain/entities/movie.dart';
 import 'package:app_cinema_full/presentation/providers/movies/movie_info_provider.dart';
+import 'package:app_cinema_full/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
@@ -20,6 +21,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   void initState() {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
   }
 
   @override
@@ -65,6 +67,7 @@ class _MovieDetails extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
 
     return Column(
+
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -97,9 +100,6 @@ class _MovieDetails extends StatelessWidget {
                 ),
               ),
 
-              // TODO: mostrar los actores ListView
-              const SizedBox(height: 100),
-
               // Descripcion de la pelciukas
             ],
           ),
@@ -112,16 +112,69 @@ class _MovieDetails extends StatelessWidget {
                   ...movie.genreIds.map((gender) => Container(
                         margin: const EdgeInsets.only(right: 10),
                         child: Chip(
-                          label: Text(gender),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )
-                        ),
+                            label: Text(gender),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )),
                       ))
                 ],
               )),
-        )
+        ),
+
+        // actores de la pelicula
+        _ActorsByMovie(movieId: movie.id.toString()),
+        const SizedBox(height: 50),
       ],
+    );
+  }
+}
+
+class _ActorsByMovie extends ConsumerWidget {
+  final String movieId;
+  const _ActorsByMovie({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final actorsByMovie = ref.watch(actorsByMovieProvider);
+
+    if (actorsByMovie[movieId] == null) {
+      return const CircularProgressIndicator();
+    }
+
+    final actors = actorsByMovie[movieId]!; //// ! no puede ser null
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: actors.length,
+        itemBuilder: (context, index) {
+          final actor = actors[index];
+          return Container(
+              padding: const EdgeInsets.all(8),
+              width: 135,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      actor.profilePath,
+                      width: 100,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Text(actor.name, maxLines: 2),
+                  Text(actor.character ?? '', maxLines: 2, 
+                  style: const TextStyle(fontSize: 12, 
+                  color: Colors.grey, fontStyle: FontStyle.italic, overflow: TextOverflow.ellipsis)
+                  ),
+
+                  
+                ],
+              ));
+        },
+      ),
     );
   }
 }
@@ -154,7 +207,14 @@ class _CustomSleverAppBar extends StatelessWidget {
                 child: Image.network(
               movie.posterPath,
               fit: BoxFit.fill,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress != null) return const SizedBox();
+                return FadeIn(child: child);
+              },
             )),
+                
+              
+            
             const SizedBox.expand(
               child: DecoratedBox(
                 decoration: BoxDecoration(
