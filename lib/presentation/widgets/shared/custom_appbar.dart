@@ -1,3 +1,4 @@
+import 'package:app_cinema_full/presentation/delegates/search_movie_delegate.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppbar extends StatelessWidget {
@@ -19,7 +20,13 @@ class CustomAppbar extends StatelessWidget {
               //const SizedBox(width: 10),
               // Text('Anyelmedia', style: titleStyle),
               const Spacer(),
-              Icon(Icons.search, color: colors.primary),
+              IconButton(
+                onPressed: (){
+                  showSearch(context: context, 
+                  delegate: SearchMovieDelegate());
+                },
+               icon: Icon(Icons.search, color: colors.primary)
+               )
             ],
           ),
         ),

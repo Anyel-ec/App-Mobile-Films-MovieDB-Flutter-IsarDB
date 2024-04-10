@@ -4,4 +4,5 @@ import 'package:app_cinema_full/infrastructure/datasources/moviedb_datasource.da
 
 final movieRepositoryProvider = Provider((ref) {
   return MovieRepositoryImpl( MoviedbDatasource() );
+  
 });
