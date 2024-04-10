@@ -9,6 +9,8 @@ In dev.... configurete file of env, your api key of moviedb
 ![Alt text](docs/show.png) 
 ### Show Films Part 2
 ![Alt text](docs/show1.png) 
+### Search 
+![Alt text](docs/search.png) 
 
 
 # IN DEV........
