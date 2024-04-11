@@ -1,8 +1,7 @@
 import 'package:app_cinema_full/domain/entities/movie.dart';
-import 'package:app_cinema_full/domain/repositories/movies_respository.dart';
 import 'package:app_cinema_full/presentation/delegates/search_movie_delegate.dart';
 import 'package:app_cinema_full/presentation/providers/movies/movies_repository_provider.dart';
-import 'package:flutter/foundation.dart';
+import 'package:app_cinema_full/presentation/providers/search/search_movies_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,23 +26,24 @@ class CustomAppbar extends ConsumerWidget {
               // Text('Anyelmedia', style: titleStyle),
               const Spacer(),
               IconButton(
-                onPressed: () {
-                  final  moviesRepository = ref.read(movieRepositoryProvider);
-                  showSearch<Movie?>(context: context,
-                   delegate: SearchMovieDelegate(
-                    searchMovie:  
-                    moviesRepository.searchMovies
-                  )
-                  ).then((movie) {
-                    if (movie != null) {
-                      context.push('/movie/${movie.id}');  
-                    }
-                  });
-                  
-                },
-              
-               icon: Icon(Icons.search, color: colors.primary)
-               )
+                  onPressed: () {
+                    final searchedMovie = ref.read(searchMoviesProvider);
+                    final searchQuery = ref.read(searchQueryProvider);
+
+                    showSearch<Movie?>(
+                            context: context,
+                            query: searchQuery,
+                            delegate: SearchMovieDelegate(
+                                searchMovie: ref
+                                    .read(searchMoviesProvider.notifier)
+                                    .searchMoviesByQuery))
+                        .then((movie) {
+                      if (movie != null) {
+                        context.push('/movie/${movie.id}');
+                      }
+                    });
+                  },
+                  icon: Icon(Icons.search, color: colors.primary))
             ],
           ),
         ),
