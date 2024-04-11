@@ -21,7 +21,7 @@ class CustomAppbar extends ConsumerWidget {
           width: double.infinity, // <-- this line
           child: Row(
             children: [
-              Icon(Icons.movie_creation, color: colors.primary),
+              //Icon(Icons.movie_creation, color: colors.primary),
               //const SizedBox(width: 10),
               // Text('Anyelmedia', style: titleStyle),
               const Spacer(),
@@ -34,6 +34,7 @@ class CustomAppbar extends ConsumerWidget {
                             context: context,
                             query: searchQuery,
                             delegate: SearchMovieDelegate(
+                                initialMovies: searchedMovie,
                                 searchMovie: ref
                                     .read(searchMoviesProvider.notifier)
                                     .searchMoviesByQuery))
