@@ -192,6 +192,11 @@ class _CustomSleverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
+      actions: [
+        IconButton(
+          onPressed: (){}, 
+        icon: const Icon(Icons.favorite_border, color: Colors.white))
+      ],
       flexibleSpace: FlexibleSpaceBar(
         // flexibleSpaceBar: es el contenedor que se expande
         // title: Text(
@@ -214,24 +219,34 @@ class _CustomSleverAppBar extends StatelessWidget {
             )),
                 
               
-            
-            const SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [
-                        0.7,
-                        1.0
-                      ],
-                      colors: [
+            const _CustomGradient(
+              begin: Alignment.topCenter, 
+              end: Alignment.bottomCenter, 
+              colors: [
                         Colors.transparent,
                         Colors.black87,
-                      ]),
-                ),
-              ),
-            ),
+                      ], 
+                      stops:  [
+                        0.7,
+                        1.0
+                      ],),
+            // const SizedBox.expand(
+            //   child: DecoratedBox(
+            //     decoration: BoxDecoration(
+            //       gradient: LinearGradient(
+            //           begin: Alignment.topCenter,
+            //           end: Alignment.bottomCenter,
+            //           stops: [
+            //             0.7,
+            //             1.0
+            //           ],
+            //           colors: [
+            //             Colors.transparent,
+            //             Colors.black87,
+            //           ]),
+            //     ),
+            //   ),
+            // ),
 
             ////////////////////
             const SizedBox.expand(
@@ -261,6 +276,35 @@ class _CustomSleverAppBar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<Color> colors;
+  final List<double> stops;
+  const _CustomGradient({
+  required this.begin, required this.end, 
+  required this.colors, required this.stops});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      // que aparecezca en el navbar en el titulo
+                      begin: begin,
+                      end: end,
+                      stops: stops,
+                      colors: colors,
+                ),
+              ),
+            )
     );
   }
 }
