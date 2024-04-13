@@ -33,14 +33,14 @@ class CustomBottomNavigation extends StatelessWidget {
         icon: Icon(Icons.home_max),
         label: 'Inicio',
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.label_outlined),
-        label: 'Categorias',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.favorite_border),
-        label: 'Perfil',
-      ),
+      // BottomNavigationBarItem(
+      //   icon: Icon(Icons.label_outlined),
+      //   label: 'Categorias',
+      // ),
+      // // BottomNavigationBarItem(
+      // //   icon: Icon(Icons.favorite_border),
+      // //  l abel: 'Perfil',
+      //),
     ]);
   }
 }
