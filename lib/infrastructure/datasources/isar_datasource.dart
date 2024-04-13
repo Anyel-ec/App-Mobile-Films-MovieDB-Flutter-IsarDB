@@ -5,12 +5,12 @@ import 'package:isar/isar.dart';
 class IsarDatasource extends LocalStorageDatasource {
   late Future<Isar> db; // late es para que no se inicialice en el constructor
 
-  IsarDatasource() {
-    db = openDB();
+  IsarDatasource() { // constructor de la clase
+    db = openDB(); // inicializamos la base de datos
   }
 
-  Future<Isar> openDB() async {
-    if (Isar.instanceNames.isEmpty) {
+  Future<Isar> openDB() async { // metodo para abrir la base de datos
+    if (Isar.instanceNames.isEmpty) { // si es vacio el nombre de la instancia 
       return await Isar.open([MovieSchema], inspector: true, directory: 'isar');
     }
     return Future.value(Isar.getInstance());

@@ -1,9 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:app_cinema_full/domain/entities/movie.dart';
+import 'package:app_cinema_full/domain/repositories/local_storage_repository.dart';
 import 'package:app_cinema_full/presentation/providers/movies/movie_info_provider.dart';
 import 'package:app_cinema_full/presentation/providers/providers.dart';
+import 'package:app_cinema_full/presentation/providers/storage/local_storage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie-screen';
@@ -67,7 +70,6 @@ class _MovieDetails extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
 
     return Column(
-
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -165,12 +167,13 @@ class _ActorsByMovie extends ConsumerWidget {
                     ),
                   ),
                   Text(actor.name, maxLines: 2),
-                  Text(actor.character ?? '', maxLines: 2, 
-                  style: const TextStyle(fontSize: 12, 
-                  color: Colors.grey, fontStyle: FontStyle.italic, overflow: TextOverflow.ellipsis)
-                  ),
-
-                  
+                  Text(actor.character ?? '',
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                          fontStyle: FontStyle.italic,
+                          overflow: TextOverflow.ellipsis)),
                 ],
               ));
         },
@@ -179,13 +182,25 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSleverAppBar extends StatelessWidget {
+final isFavoriteProvider = FutureProvider.family((ref, int movieId) {
+  final localStorageRepository =
+      ref.watch(localStorageRepositoryProvider); // escuchamos el provider
+
+  return localStorageRepository
+      .isMovieFavorite(movieId); // si esta en favoritos
+});
+
+class _CustomSleverAppBar extends ConsumerWidget {
   final Movie movie;
 
   const _CustomSleverAppBar(this.movie);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+
+    final isFavoriteFuture =
+        ref.watch(isFavoriteProvider(movie.id)); // escuchamos el provider
+
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
       title: Text(movie.title, maxLines: 2),
@@ -194,8 +209,22 @@ class _CustomSleverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: (){}, 
-        icon: const Icon(Icons.favorite_border, color: Colors.white))
+          onPressed: () {
+            // ref.watch(localStorageRepositoryProvider).toogleFavorite(movie);
+
+            // ref.invalidate(
+            //     isFavoriteProvider(movie.id)); // invalidamos el provider
+          },
+
+          icon : const Icon(Icons.favorite_border),
+          // icon: isFavoriteFuture.when(
+          //    loading: () => const CircularProgressIndicator(strokeWidth: 2),
+          //    data: (isFavorite) => isFavorite
+          //        ? const Icon(Icons.favorite_rounded, color: Colors.red)
+          //        : const Icon(Icons.favorite_border),
+          //    error: (_, __) => throw UnimplementedError(),
+          // ),
+        )
       ],
       flexibleSpace: FlexibleSpaceBar(
         // flexibleSpaceBar: es el contenedor que se expande
@@ -217,19 +246,16 @@ class _CustomSleverAppBar extends StatelessWidget {
                 return FadeIn(child: child);
               },
             )),
-                
-              
+
             const _CustomGradient(
-              begin: Alignment.topCenter, 
-              end: Alignment.bottomCenter, 
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: [
-                        Colors.transparent,
-                        Colors.black87,
-                      ], 
-                      stops:  [
-                        0.7,
-                        1.0
-                      ],),
+                Colors.transparent,
+                Colors.black87,
+              ],
+              stops: [0.7, 1.0],
+            ),
             // const SizedBox.expand(
             //   child: DecoratedBox(
             //     decoration: BoxDecoration(
@@ -280,31 +306,30 @@ class _CustomSleverAppBar extends StatelessWidget {
   }
 }
 
-
-
 class _CustomGradient extends StatelessWidget {
   final AlignmentGeometry begin;
   final AlignmentGeometry end;
   final List<Color> colors;
   final List<double> stops;
-  const _CustomGradient({
-  required this.begin, required this.end, 
-  required this.colors, required this.stops});
+  const _CustomGradient(
+      {required this.begin,
+      required this.end,
+      required this.colors,
+      required this.stops});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      // que aparecezca en el navbar en el titulo
-                      begin: begin,
-                      end: end,
-                      stops: stops,
-                      colors: colors,
-                ),
-              ),
-            )
-    );
+        child: DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          // que aparecezca en el navbar en el titulo
+          begin: begin,
+          end: end,
+          stops: stops,
+          colors: colors,
+        ),
+      ),
+    ));
   }
 }

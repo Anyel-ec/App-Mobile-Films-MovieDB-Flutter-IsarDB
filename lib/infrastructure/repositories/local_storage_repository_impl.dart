@@ -3,12 +3,13 @@
 import 'package:app_cinema_full/domain/datasources/local_storage_datasource.dart';
 import 'package:app_cinema_full/domain/entities/movie.dart';
 import 'package:app_cinema_full/domain/repositories/local_storage_repository.dart';
+import 'package:app_cinema_full/infrastructure/datasources/isar_datasource.dart';
 
 class LocalStorageRepositoryImpl extends LocalStorageRepository{
 
   final LocalStorageDatasource datasource;
 
-  LocalStorageRepositoryImpl({required this.datasource});
+  LocalStorageRepositoryImpl(this.datasource);
 
   @override
   Future<bool> isMovieFavorite(int movieId) {
