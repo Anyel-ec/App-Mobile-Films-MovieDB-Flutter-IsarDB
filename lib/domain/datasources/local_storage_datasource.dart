@@ -1,0 +1,15 @@
+
+
+
+import 'package:app_cinema_full/domain/entities/movie.dart';
+
+abstract class LocalStorageDatasource{
+  Future<void> toogleFavorite(Movie movie);
+
+  Future<bool> isMovieFavorite(int movieId);
+
+  Future<List<Movie>> loadMovies({
+    int limit = 10, offset = 0
+  });
+
+}

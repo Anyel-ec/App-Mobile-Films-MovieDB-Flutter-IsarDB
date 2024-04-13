@@ -1,6 +1,9 @@
 # app_cinema_full
 
 In dev.... configurete file of env, your api key of moviedb
+```
+- flutter pub run build_runner build
+```
 
 # IN DEV........
 ### Home
